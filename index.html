@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PaisNova - System Compromised</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+
+        body {
+            background-color: #000;
+            color: #ff0000;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+        }
+
+        #matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.3;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px #ff0000;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 3px;
+            animation: glitch 1s infinite;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ff3333;
+        }
+
+        .message {
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ff0000;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            max-width: 700px;
+        }
+
+        .message p {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .hacker-info {
+            margin-top: 30px;
+            font-size: 1.2rem;
+        }
+
+        .countdown {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            color: #ff6666;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: #990000;
+        }
+
+        @keyframes glitch {
+            0% {
+                text-shadow: 2px 2px 0px #ff0000, -2px -2px 0px #00ffff;
+            }
+            25% {
+                text-shadow: -2px -2px 0px #ff0000, 2px 2px 0px #00ffff;
+            }
+            50% {
+                text-shadow: 2px -2px 0px #ff0000, -2px 2px 0px #00ffff;
+            }
+            75% {
+                text-shadow: -2px 2px 0px #ff0000, 2px -2px 0px #00ffff;
+            }
+            100% {
+                text-shadow: 2px 2px 0px #ff0000, -2px -2px 0px #00ffff;
+            }
+        }
+
+        .blink {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .terminal {
+            background-color: #111;
+            border: 1px solid #ff0000;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+            max-width: 700px;
+            overflow: hidden;
+        }
+
+        .terminal-line {
+            margin-bottom: 5px;
+        }
+
+        .prompt {
+            color: #00ff00;
+        }
+
+        .command {
+            color: #ffffff;
+        }
+
+        .output {
+            color: #ff6666;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="matrix"></canvas>
+    
+    <div class="container">
+        <div class="header">
+            <h1>PAISNOVA</h1>
+            <h2>SYSTEM COMPROMISED</h2>
+        </div>
+        
+        <div class="message">
+            <p>WARNING: This system has been seized by <span class="blink">PaisNova</span>.</p>
+            <p>All data has been encrypted and secured by our forces.</p>
+            <p>We have taken control of this domain and its infrastructure.</p>
+            <p>Your security has been proven inadequate against our methods.</p>
+        </div>
+        
+        <div class="terminal">
+            <div class="terminal-line">
+                <span class="prompt">root@paisnova:~#</span> <span class="command">scan_system</span>
+            </div>
+            <div class="terminal-line output">
+                [INFO] Scanning system vulnerabilities...<br>
+                [INFO] Firewall bypassed...<br>
+                [INFO] Admin credentials acquired...<br>
+                [INFO] System access granted...
+            </div>
+            <div class="terminal-line">
+                <span class="prompt">root@paisnova:~#</span> <span class="command">deface_site</span>
+            </div>
+            <div class="terminal-line output">
+                [SUCCESS] Website successfully defaced by PaisNova
+            </div>
+            <div class="terminal-line">
+                <span class="prompt">root@paisnova:~#</span> <span class="command blink">_</span>
+            </div>
+        </div>
+        
+        <div class="hacker-info">
+            <p>Hacked by: <span class="blink">PaisNova</span> | We are everywhere, we are watching</p>
+        </div>
+        
+        <div class="countdown">
+            <p>System will self-destruct in: <span id="timer">00:00:00</span></p>
+        </div>
+        
+        <div class="footer">
+            <p>PaisNova Security Team | We don't forgive, we don't forget. Expect us.</p>
+        </div>
+    </div>
+
+    <script>
+        // Matrix effect
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const chars = "PAISNOVA0123456789$#@%&*()_+-=[]{}|;:,.<>?";
+        const charArray = chars.split("");
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+        
+        function drawMatrix() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            ctx.fillStyle = "#ff0000";
+            ctx.font = fontSize + "px monospace";
+            
+            for (let i = 0; i < drops.length; i++) {
+                const text = charArray[Math.floor(Math.random() * charArray.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+        
+        setInterval(drawMatrix, 35);
+        
+        // Countdown timer
+        let seconds = 600; // 10 minutes
+        const timerElement = document.getElementById('timer');
+        
+        function updateTimer() {
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            
+            timerElement.textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            
+            if (seconds > 0) {
+                seconds--;
+            } else {
+                timerElement.textContent = "00:00:00";
+                timerElement.classList.add('blink');
+            }
+        }
+        
+        setInterval(updateTimer, 1000);
+        
+        // Terminal typing effect
+        const terminalLines = document.querySelectorAll('.terminal-line');
+        terminalLines.forEach(line => {
+            const command = line.querySelector('.command');
+            if (command) {
+                const text = command.textContent;
+                command.textContent = '';
+                let i = 0;
+                const typeWriter = () => {
+                    if (i < text.length) {
+                        command.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(typeWriter, 100);
+                    }
+                };
+                setTimeout(typeWriter, 500);
+            }
+        });
+        
+        // Resize canvas on window resize
+        window.addEventListener('resize', function() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
